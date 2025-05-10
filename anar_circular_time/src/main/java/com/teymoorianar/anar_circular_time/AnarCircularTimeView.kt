@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
+import java.util.Locale
 
 /**
  * TODO: document your custom view class.
@@ -36,6 +37,7 @@ class AnarCircularTimeView @JvmOverloads constructor(
     private var textColor: Int
     private var strokeWidth: Float
     private var textSize: Float
+    private var languageLocale: Locale? = null
 
     init {
         // Retrieve attributes from XML
@@ -45,6 +47,11 @@ class AnarCircularTimeView @JvmOverloads constructor(
         textColor = typedArray.getColor(R.styleable.CircularProgressView_textColor, Color.BLACK)
         strokeWidth = typedArray.getDimension(R.styleable.CircularProgressView_strokeWidth, 10f)
         textSize = typedArray.getDimension(R.styleable.CircularProgressView_textSize, 24f)
+        val localeCode = typedArray.getString(R.styleable.CircularProgressView_languageLocale)
+        languageLocale = when {
+            localeCode.isNullOrBlank() || localeCode == "system" -> null
+            else -> Locale(localeCode)
+        }
         typedArray.recycle()
 
         // Initialize paints
@@ -110,10 +117,13 @@ class AnarCircularTimeView @JvmOverloads constructor(
         val seconds = (millis / 1000).toInt()
         val minutes = seconds / 60
         val remainingSeconds = seconds % 60
+        val hasLocale: Boolean = languageLocale != null
         return if (minutes > 0) {
-            String.format("%d:%02d", minutes, remainingSeconds)
+            String.format(if (hasLocale) languageLocale!! else Locale.getDefault(),
+                "%d:%02d", minutes, remainingSeconds)
         } else {
-            String.format("%d s", seconds)
+            String.format(if (hasLocale) languageLocale!! else Locale.getDefault(),
+                "%d s", seconds)
         }
     }
 

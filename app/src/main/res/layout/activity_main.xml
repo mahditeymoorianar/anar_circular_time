@@ -21,5 +21,6 @@
         app:strokeWidth="10dp"
         app:textColor="#FB8C00"
         app:textBottomOffset="0dp"
+        app:languageLocale="en"
         app:textSize="40sp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,14 +4,14 @@ plugins {
     id("maven-publish")
 }
 group = "com.github.mahditeymoorianar"
-version = "1.0.0"
+version = "1.1.0"
 
 publishing {
     publications {
         register<MavenPublication>("release") {
             groupId = "com.github.teymoorianar"
             artifactId = "anar_circular_time"
-            version = "1.0.0"
+            version = "1.1.0"
 
             afterEvaluate {
                 from(components["release"])
